@@ -8,4 +8,7 @@ class Job < ApplicationRecord
   scope :recent, -> {order('created_at DESC')}
 
   has_many :resumes
+  belongs_to :user
+  has_many :favorites
+  has_many :followers, through: :favorites, source: :user
 end
