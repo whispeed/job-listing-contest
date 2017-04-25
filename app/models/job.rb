@@ -11,4 +11,5 @@ class Job < ApplicationRecord
   belongs_to :user
   has_many :favorites
   has_many :followers, through: :favorites, source: :user
+  has_many :applicant, through: :resumes, source: :user
 end

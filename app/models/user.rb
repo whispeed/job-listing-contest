@@ -8,9 +8,14 @@ class User < ApplicationRecord
   has_many :jobs
   has_many :favorites
   has_many :favorited_jobs, :through => :favorites, :source => :job
+  has_many :cast_jobs, :through => :resumes, :source => :job
 
   def is_follower_of?(job)
     favorited_jobs.include?(job)
+  end
+
+  def is_applicant_of?(job)
+    cast_jobs.include?(job)
   end
 
   def admin?
