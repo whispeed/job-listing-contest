@@ -24,5 +24,6 @@ Rails.application.routes.draw do
 
   namespace :account do
     resources :jobs
+    resources :resumes
   end
 end
