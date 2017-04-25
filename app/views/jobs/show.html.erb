@@ -4,6 +4,14 @@
   <%= simple_format(@job.description) %>
 </p>
 
-<div class="text-center">
-  <%= link_to("投简历", new_job_resume_path(@job), :style => "font-size: 30px; text-decoration: underline;") %>
+<div class="pull-left">
+  <%= link_to("投简历", new_job_resume_path(@job), :class => "btn btn-default" ) %>
+</div>
+
+<div class="pull-left">
+  <% if current_user && current_user.is_follower_of?(@job) %>
+    <%= link_to("取消收藏", unfollow_job_path(@job), method: :post, :class => "btn btn-info") %>
+  <% else %>
+    <%= link_to("收藏工作", follow_job_path(@job), method: :post, :class => "btn btn-default") %>
+  <% end %>
 </div>

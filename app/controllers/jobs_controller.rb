@@ -1,5 +1,5 @@
 class JobsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :follow, :unfollow]
 
   def index
     @jobs = case params[:order]
@@ -52,6 +52,28 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     @job.destroy
     redirect_to jobs_path, alert: "已删除工作！"
+  end
+
+  def follow
+    @job = Job.find(params[:id])
+
+    if !current_user.is_follower_of?(@job)
+      current_user.follow!(@job)
+      flash[:notice] = "已收藏工作"
+    end
+
+    redirect_to :back
+  end
+
+  def unfollow
+    @job = Job.find(params[:id])
+
+    if current_user.is_follower_of?(@job)
+      current_user.unfollow!(@job)
+      flash[:alert] = "收藏已取消"
+    end
+
+    redirect_to :back
   end
 
   private

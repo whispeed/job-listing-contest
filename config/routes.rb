@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :jobs do
+    member do
+      post :follow
+      post :unfollow
+    end
     resources :resumes
   end
 
