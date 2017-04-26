@@ -1,7 +1,7 @@
 <%= simple_form_for [:admin, @job] do |f| %>
   <%= f.input :title %>
-  <%= f.input :category %>
-  <%= f.input :location %>
+  <%= f.input :category, collection: ["产品", "设计", "开发", "运营", "其他"] %>
+  <%= f.input :location, collection: ["北京", "上海", "广州", "深圳", "其他"] %>
   <%= f.input :description %>
   <%= f.input :wage_upper_bound %>
   <%= f.input :wage_lower_bound %>

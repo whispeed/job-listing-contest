@@ -12,9 +12,9 @@ class JobsController < ApplicationController
     end
   end
 
-  def new
-    @job = Job.new
-  end
+  # def new
+  #   @job = Job.new
+  # end
 
   def show
     @job = Job.find(params[:id])
@@ -25,34 +25,34 @@ class JobsController < ApplicationController
     end
   end
 
-  def create
-    @job = Job.new(job_params)
-
-    if @job.save
-      redirect_to jobs_path, notice: "新建成功！"
-    else
-      render :new
-    end
-  end
-
-  def edit
-    @job = Job.find(params[:id])
-  end
-
-  def update
-    @job = Job.find(params[:id])
-    if @job.update(job_params)
-      redirect_to jobs_path, notice: "已更新！"
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    @job = Job.find(params[:id])
-    @job.destroy
-    redirect_to jobs_path, alert: "已删除工作！"
-  end
+  # def create
+  #   @job = Job.new(job_params)
+  #
+  #   if @job.save
+  #     redirect_to jobs_path, notice: "新建成功！"
+  #   else
+  #     render :new
+  #   end
+  # end
+  #
+  # def edit
+  #   @job = Job.find(params[:id])
+  # end
+  #
+  # def update
+  #   @job = Job.find(params[:id])
+  #   if @job.update(job_params)
+  #     redirect_to jobs_path, notice: "已更新！"
+  #   else
+  #     render :edit
+  #   end
+  # end
+  #
+  # def destroy
+  #   @job = Job.find(params[:id])
+  #   @job.destroy
+  #   redirect_to jobs_path, alert: "已删除工作！"
+  # end
 
   def follow
     @job = Job.find(params[:id])

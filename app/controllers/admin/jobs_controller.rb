@@ -4,7 +4,7 @@ class Admin::JobsController < ApplicationController
   layout "admin"
 
   def index
-    @jobs = Job.all
+    @jobs = current_user.jobs
   end
 
   def new
@@ -12,11 +12,12 @@ class Admin::JobsController < ApplicationController
   end
 
   def show
-    @job = Job.find(params[:id])
+    find_job_and_check_permission
   end
 
   def create
     @job = Job.new(job_params)
+    @job.user = current_user
 
     if @job.save
       redirect_to admin_jobs_path
@@ -26,11 +27,11 @@ class Admin::JobsController < ApplicationController
   end
 
   def edit
-    @job = Job.find(params[:id])
+    find_job_and_check_permission
   end
 
   def update
-    @job = Job.find(params[:id])
+    find_job_and_check_permission
     if @job.update(job_params)
       redirect_to admin_jobs_path
     else
@@ -39,20 +40,20 @@ class Admin::JobsController < ApplicationController
   end
 
   def destroy
-    @job = Job.find(params[:id])
+    find_job_and_check_permission
     @job.destroy
     redirect_to admin_jobs_path, alert: "已删除工作！"
   end
 
   def publish
-    @job = Job.find(params[:id])
+    find_job_and_check_permission
     @job.is_hidden = false
     @job.save
     redirect_to :back
   end
 
   def hide
-    @job = Job.find(params[:id])
+    find_job_and_check_permission
     @job.is_hidden = true
     @job.save
     redirect_to :back
@@ -60,7 +61,16 @@ class Admin::JobsController < ApplicationController
 
   private
 
+  def find_job_and_check_permission
+    @job = Job.find(params[:id])
+
+    if current_user != @job.user
+      redirect_to root_path, alert: "你没有权限！"
+    end
+  end
+
   def job_params
     params.require(:job).permit(:title, :description, :wage_lower_bound, :wage_upper_bound, :contact_email, :is_hidden, :category, :location)
   end
+
 end
