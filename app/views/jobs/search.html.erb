@@ -13,10 +13,13 @@
       </div>
     <% else %>
       <h3>Total find <%= @jobs.count %> jobs</h3>
-      <div class="divider"></div>
-      <%= render :partial => "jobs_item", :collection => @jobs, :as => :job %>
-      <div class="text-center">
-        <%= will_paginate @jobs, renderer: BootstrapPagination::Rails %>
+      <div class="search-result">
+        <table class="table table-borderd">
+          <% @jobs.each do |job| %>
+            <%= link_to(job.title,job_path(job)) %>
+            <hr>
+          <% end %>
+       </table>
       </div>
     <% end %>
   </div>

@@ -1,6 +1,7 @@
+<!-- 排序 -->
 <div class="dropdown clearfix pull-right">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuDivider" data-toggle="dropdown" aria-haspoup="true" aria-expanded="true">
-    排序<span class="caret"></span>
+    全部工作<span class="caret"></span>
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
     <li>
@@ -11,6 +12,54 @@
     </li>
     <li>
       <%= link_to("按照发布时间排序", jobs_path) %>
+    </li>
+  </ul>
+</div>
+
+<!-- 按类别检索 -->
+<div class="dropdown clearfix pull-right">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuDivider" data-toggle="dropdown" aria-haspoup="true" aria-expanded="true">
+    类别<span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+    <li>
+      <%= link_to("产品", jobs_path(:category => "产品")) %>
+    </li>
+    <li>
+      <%= link_to("设计", jobs_path(:category => "设计")) %>
+    </li>
+    <li>
+      <%= link_to("开发", jobs_path(:category => "开发")) %>
+    </li>
+    <li>
+      <%= link_to("运营", jobs_path(:category => "运营")) %>
+    </li>
+    <li>
+      <%= link_to("其他", jobs_path(:category => "其他")) %>
+    </li>
+  </ul>
+</div>
+
+<!-- 按地点检索 -->
+<div class="dropdown clearfix pull-right">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuDivider" data-toggle="dropdown" aria-haspoup="true" aria-expanded="true">
+    地点<span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+    <li>
+      <%= link_to("北京", jobs_path(:location => "北京")) %>
+    </li>
+    <li>
+      <%= link_to("上海", jobs_path(:location => "上海")) %>
+    </li>
+    <li>
+      <%= link_to("广州", jobs_path(:location => "广州")) %>
+    </li>
+    <li>
+      <%= link_to("深圳", jobs_path(:location => "深圳")) %>
+    </li>
+    <li>
+      <%= link_to("其他", jobs_path(:location => "其他")) %>
     </li>
   </ul>
 </div>

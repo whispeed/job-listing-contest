@@ -3,57 +3,48 @@ class JobsController < ApplicationController
   before_action :validate_search_key, only: [:search]
 
   def index
-    @jobs = case params[:order]
-    when 'by_lower_bound'
-      Job.published.order('wage_lower_bound DESC')
-    when 'by_upper_bound'
-      Job.published.order('wage_upper_bound DESC')
+    if params[:location].present?
+      @location = params[:location]
+      @jobs = case params[:order]
+      when 'by_lower_bound'
+        Job.where(:is_hidden => false, :location => @location).order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 10)
+      when 'by_upper_bound'
+        Job.where(:is_hidden => false, :location => @location).order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 10)
+      else
+        Job.where(:is_hidden => false, :location => @location).recent.paginate(:page => params[:page], :per_page => 10)
+      end
+
+    elsif params[:category].present?
+      @category = params[:category]
+      @jobs = case params[:order]
+      when 'by_lower_bound'
+        Job.where(:is_hidden => false, :category => @category).order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 10)
+      when 'by_upper_bound'
+        Job.where(:is_hidden => false, :category => @category).order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 10)
+      else
+        Job.where(:is_hidden => false, :category => @category).recent.paginate(:page => params[:page], :per_page => 10)
+      end
+
     else
-      Job.published.recent
+      @jobs = case params[:order]
+      when 'by_lower_bound'
+        Job.published.order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 10)
+      when 'by_upper_bound'
+        Job.published.order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 10)
+      else
+        Job.published.recent.paginate(:page => params[:page], :per_page => 10)
+      end
     end
   end
-
-  # def new
-  #   @job = Job.new
-  # end
 
   def show
     @job = Job.find(params[:id])
 
     if @job.is_hidden
-      flash[:warning] = "该工作已被归档"
+      flash[:warning] = "该工作暂未公开"
       redirect_to root_path
     end
   end
-
-  # def create
-  #   @job = Job.new(job_params)
-  #
-  #   if @job.save
-  #     redirect_to jobs_path, notice: "新建成功！"
-  #   else
-  #     render :new
-  #   end
-  # end
-  #
-  # def edit
-  #   @job = Job.find(params[:id])
-  # end
-  #
-  # def update
-  #   @job = Job.find(params[:id])
-  #   if @job.update(job_params)
-  #     redirect_to jobs_path, notice: "已更新！"
-  #   else
-  #     render :edit
-  #   end
-  # end
-  #
-  # def destroy
-  #   @job = Job.find(params[:id])
-  #   @job.destroy
-  #   redirect_to jobs_path, alert: "已删除工作！"
-  # end
 
   def follow
     @job = Job.find(params[:id])
@@ -84,22 +75,16 @@ class JobsController < ApplicationController
     end
   end
 
-  private
-
-  def job_params
-    params.require(:job).permit(:title, :description, :wage_lower_bound, :wage_upper_bound, :contact_email, :is_hidden, :category, :location, :company)
-  end
+  protected
 
   def validate_search_key
     @query_string = params[:q].gsub(/\\|\'|\/|\?/, "")
     if params[:q].present?
-      @search_criteria =  {
-        title_or_company_or_location_cont: @query_string
-      }
+      @search_criteria =  search_criteria(@query_string)
     end
   end
 
   def search_criteria(query_string)
-    { :title_cont => query_string }
+    { :title_or_description_or_location_or_category_or_company_cont => query_string }
   end
 end
