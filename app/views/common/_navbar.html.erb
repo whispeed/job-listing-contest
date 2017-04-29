@@ -1,23 +1,24 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation" id="welcome_navbar">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">Job Listing</a>
+      <a class="navbar-brand" href="/"><img src='<%= image_url 'logo.png' %>' >吃饭。工作。</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
           <div class="form-group form-inline search-bar">
             <%= render :partial => "jobs/search_bar" %>
           </div>
         </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <%= link_to("全部工作", jobs_path) %>
+        </li>
           <% if !current_user %>
-            <li> <%= link_to("注册", new_user_registration_path) %> </li>
-            <li> <%= link_to("登录", new_user_session_path) %> </li>
+            <li><a href="#" data-toggle="modal" data-target="#signup-modal">注册</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#login-modal">登入</a></li>
           <% else %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -42,3 +43,78 @@
   </div>
   <!-- /.container-fluid -->
 </nav>
+
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog" role="document">
+    <div class="loginmodal-container">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+       <h2>登入</h2>
+       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+         <div class="form-inputs">
+           <%= f.input :email, label: "邮箱", required: false, autofocus: true %>
+           <%= f.input :password, label: "密码", required: false %>
+           <%= f.input :remember_me, label: "记住密码", as: :boolean if devise_mapping.rememberable? %>
+         </div>
+         <div class="form-actions">
+           <%= f.button :submit, "登入" %>
+         </div>
+       <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="loginmodal-container">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2>注册新用户</h2>
+
+      <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">个人用户</a></li>
+          <li role="presentation"><a href="#business" aria-controls="business" role="tab" data-toggle="tab">企业用户</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="personal"><%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= f.error_notification %>
+              <div class="form-inputs">
+                <br />
+                <%= f.input :email, label: "邮箱", required: true, autofocus: true %>
+                <%= f.input :name, label: "用户名", required: true %>
+                <%= f.input :password, label: "密码", required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+                <%= f.input :password_confirmation, label: "确认密码", required: true %>
+              </div>
+              <div class="form-actions">
+                  <%= f.button :submit, "注册" %>
+              </div>
+            <% end %>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="business">
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= f.error_notification %>
+            <div class="form-inputs">
+              <br />
+              <%= f.input :email, label: "邮箱", required: true, autofocus: true %>
+              <%= f.input :name, label: "公司名称", required: true %>
+              <%= f.input :password, label: "密码", required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+              <%= f.input :password_confirmation, label: "确认密码", required: true %>
+              <%= f.hidden_field :is_admin, value: "true" %>
+            </div>
+            <div class="form-actions">
+                <%= f.button :submit, "注册" %>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

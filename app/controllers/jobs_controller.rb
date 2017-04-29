@@ -2,37 +2,38 @@ class JobsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :follow, :unfollow]
   before_action :validate_search_key, only: [:search]
 
+
   def index
     if params[:location].present?
       @location = params[:location]
       @jobs = case params[:order]
       when 'by_lower_bound'
-        Job.where(:is_hidden => false, :location => @location).order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 10)
+        Job.where(:is_hidden => false, :location => @location).order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 5)
       when 'by_upper_bound'
-        Job.where(:is_hidden => false, :location => @location).order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 10)
+        Job.where(:is_hidden => false, :location => @location).order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 5)
       else
-        Job.where(:is_hidden => false, :location => @location).recent.paginate(:page => params[:page], :per_page => 10)
+        Job.where(:is_hidden => false, :location => @location).recent.paginate(:page => params[:page], :per_page => 5)
       end
 
     elsif params[:category].present?
       @category = params[:category]
       @jobs = case params[:order]
       when 'by_lower_bound'
-        Job.where(:is_hidden => false, :category => @category).order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 10)
+        Job.where(:is_hidden => false, :category => @category).order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 5)
       when 'by_upper_bound'
-        Job.where(:is_hidden => false, :category => @category).order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 10)
+        Job.where(:is_hidden => false, :category => @category).order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 5)
       else
-        Job.where(:is_hidden => false, :category => @category).recent.paginate(:page => params[:page], :per_page => 10)
+        Job.where(:is_hidden => false, :category => @category).recent.paginate(:page => params[:page], :per_page => 5)
       end
 
     else
       @jobs = case params[:order]
       when 'by_lower_bound'
-        Job.published.order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 10)
+        Job.published.order('wage_lower_bound DESC').paginate(:page => params[:page], :per_page => 5)
       when 'by_upper_bound'
-        Job.published.order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 10)
+        Job.published.order('wage_upper_bound DESC').paginate(:page => params[:page], :per_page => 5)
       else
-        Job.published.recent.paginate(:page => params[:page], :per_page => 10)
+        Job.published.recent.paginate(:page => params[:page], :per_page => 5)
       end
     end
   end

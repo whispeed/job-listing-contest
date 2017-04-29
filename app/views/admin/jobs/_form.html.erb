@@ -1,12 +1,25 @@
 <%= simple_form_for [:admin, @job] do |f| %>
-  <%= f.input :title %>
-  <%= f.input :category, collection: ["产品", "设计", "开发", "运营", "其他"] %>
-  <%= f.input :location, collection: ["北京", "上海", "广州", "深圳", "其他"] %>
-  <%= f.input :description %>
-  <%= f.input :wage_upper_bound %>
-  <%= f.input :wage_lower_bound %>
-  <%= f.input :contact_email %>
-  <%= f.input :is_hidden %>
 
-  <%= f.submit "Submit" %>
+  <%= f.input :title, label: "职位名称" %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.input :category, label: "工作类别", collection: ["咖啡", "餐厅", "酒吧"] %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :location, label: "工作地点", collection: ["北京", "上海", "广州", "深圳", "其他"] %>
+    </div>
+  </div>
+  <%= f.input :description, label: "详细描述" %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.input :wage_lower_bound, label: "薪资下限" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :wage_upper_bound, label: "薪资上限" %>
+    </div>
+  </div>
+  <%= f.input :contact_email, label: "联络邮箱" %>
+  <%= f.input :is_hidden, label: "暂不公开" %>
+  <%= f.submit "保存", disable_with: "发送中...", class: "btn btn-success"%>
+  <%= link_to("取消", admin_jobs_path, class:"btn btn-default") %>
 <% end %>

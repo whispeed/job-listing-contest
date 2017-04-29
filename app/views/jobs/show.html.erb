@@ -11,14 +11,6 @@
 
 <% if current_user && !current_user.is_admin %>
   <div class="pull-left">
-    <% if current_user && current_user.is_applicant_of?(@job) %>
-      <%= link_to("已投简历", "#", :class => "btn btn-success" ) %>
-    <% else %>
-      <%= link_to("投简历", new_job_resume_path(@job), :class => "btn btn-default" ) %>
-    <% end %>
-  </div>
-
-  <div class="pull-left">
     <% if current_user && current_user.is_follower_of?(@job) %>
       <%= link_to("取消收藏", unfollow_job_path(@job), method: :post, :class => "btn btn-info") %>
     <% else %>

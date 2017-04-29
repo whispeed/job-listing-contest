@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :resumes
   end
 
-  root "jobs#index"
+  root "welcome#index"
 
   namespace :admin do
     resources :jobs do
