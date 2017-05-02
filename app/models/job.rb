@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: jobs
+#
+#  id               :integer          not null, primary key
+#  title            :string
+#  description      :text
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  wage_upper_bound :integer
+#  wage_lower_bound :integer
+#  contact_email    :string
+#  is_hidden        :boolean          default("t")
+#  user_id          :integer
+#  location         :string
+#  category         :string
+#  company          :string
+#
+
 class Job < ApplicationRecord
   validates :title, presence: { message: "请填写职位名称" }
   validates :wage_upper_bound, presence: { message: "请填写薪资上限" }
