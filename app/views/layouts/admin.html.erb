@@ -8,8 +8,8 @@
   </head>
 
   <body>
-    <div class="content">
-      <div class="container-fluid">
+    <div class="row content">
+      <div class="container-fluid" style="padding: 0px 30px 0px 30px">
         <div class="row">
           <%= render "common/navbar" %>
         </div>
@@ -26,6 +26,8 @@
         </div>
       </div>
     </div>
-    <%= render "common/footer" %>
+    <div class="row footer">
+      <%= render "common/footer" %>
+    </div>
   </body>
 </html>
