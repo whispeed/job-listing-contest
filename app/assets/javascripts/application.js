@@ -16,3 +16,17 @@
 //= require bootstrap
 //= require toastr
 //= require_tree .
+
+$(document).ready(function() {
+    // alert auto close
+    // window.setTimeout(function() {
+    //     $('.alert').alert('close');
+    // }, 3000);
+    // 特效2
+    window.setTimeout(function() {
+        $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+            $(this).alert('close');
+        });
+    }, 2000);
+
+});

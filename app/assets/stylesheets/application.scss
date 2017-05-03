@@ -246,6 +246,9 @@
   font-size: 12px;
 }
 
-.testflashes {
-  z-index: 1
+.alert {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  text-align: center;
 }
